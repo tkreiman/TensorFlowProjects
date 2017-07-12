@@ -535,13 +535,13 @@ def process_image(image):
 class NeuralNetwork:
     
     def __init__(self, replay_memory, num_actions):
-        self.replay_memory = replay_Memory
+        self.replay_memory = replay_memory
         self.num_actions = num_actions
         
         self.x = tf.placeholder(tf.float32, shape=[4,84,84])
         self.target_q_values = tf.placeholder(tf.float32, shape=[None, possible_actions])
 
-        self.learning_rate = tf.placeholder(tf.float32. shape=[])
+        self.learning_rate = tf.placeholder(tf.float32, shape=[])
             
         #Create Deep Neural Network
         # 3 convolutional layers
@@ -591,11 +591,11 @@ class NeuralNetwork:
         
         
         # L2 loss
-        squared_error = tf.square(predicted_q_values - target_q_values)
+        squared_error = tf.square(self.predicted_q_values - self.target_q_values)
         sum_squared_error = tf.reduce_sum(squared_error, axis=1)
         self.loss = tf.reduce_mean(sum_squared_error)       
 
-        self.train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
+        self.train_step = tf.train.GradientDescentOptimizer(self.learning_rate).minimize(self.loss)
 
 
 
@@ -603,8 +603,8 @@ class NeuralNetwork:
 
 #replay_memory = ReplayMemory(200000, possible_actions)
     #Takes last 4 frames as input
-    def get_q_values(states):
-        values = sess.run(self.predicted_q_values, feed_dict={self.x: states})
+    def get_q_values(self, states):
+        values = self.sess.run(self.predicted_q_values, feed_dict={self.x: states})
     
         return values
 
